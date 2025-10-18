@@ -124,46 +124,51 @@ function handle_gdm_download_via_direct_post() {
 			$dl_logging_needed = false;
 		}
 
-		// Check if we are only logging unique ips
-		if ( $unique_ips === true ) {
-			$check_ip = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'gdm_downloads WHERE post_id="' . $download_id . '" AND visitor_ip = "' . $ipaddress . '"' );
+		// Cache bot detection result to avoid multiple function calls
+		$is_bot = isset( $main_option['admin_dont_log_bots'] ) ? gdm_visitor_is_bot() : false;
 
-			//This IP is already logged for this download item. No need to log it again.
-			if ( $check_ip ) {
+		// Check if we are only logging unique IPs (cache result for reuse)
+		$ip_already_logged = false;
+		if ( $unique_ips === true && ! empty( $ipaddress ) ) {
+			$table = $wpdb->prefix . 'gdm_downloads';
+			// Use SELECT 1 for efficiency and prepared statement for security
+			$ip_already_logged = (bool) $wpdb->get_var( 
+				$wpdb->prepare( 
+					"SELECT 1 FROM $table WHERE post_id = %d AND visitor_ip = %s LIMIT 1", 
+					$download_id, 
+					$ipaddress 
+				) 
+			);
+
+			// This IP is already logged for this download item. No need to log it again.
+			if ( $ip_already_logged ) {
 				$dl_logging_needed = false;
 			}
 		}
 
 		// Check if "Do Not Count Downloads from Bots" setting is enabled
-		if ( isset( $main_option['admin_dont_log_bots'] ) ) {
-			//it is. Now let's check if visitor is a bot
-			if ( gdm_visitor_is_bot() ) {
-				//visitor is a bot. We neither log nor count this download
-				$dl_logging_needed = false;
-			}
+		if ( $is_bot ) {
+			// Visitor is a bot. We neither log nor count this download
+			$dl_logging_needed = false;
 		}
 
 		// Determine if we should count this download (separate from detailed logging)
 		$should_count_download = true;
 		
 		// Don't count if explicitly ignored via URL parameter
-		if( isset( $_REQUEST['gdm_ignore_logging'] ) && $_REQUEST['gdm_ignore_logging'] == '1' ) {
+		if( isset( $_REQUEST['gdm_ignore_logging'] ) && $_REQUEST['gdm_ignore_logging'] === '1' ) {
 			$should_count_download = false;
 			$dl_logging_needed = false;
 		}
 		
 		// Don't count if it's a bot and bot counting is disabled
-		if ( isset( $main_option['admin_dont_log_bots'] ) && gdm_visitor_is_bot() ) {
+		if ( $is_bot ) {
 			$should_count_download = false;
 		}
 		
-		// Don't count if logging unique IPs and this IP has already downloaded
-		if ( $unique_ips === true ) {
-			$check_ip = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'gdm_downloads WHERE post_id="' . $download_id . '" AND visitor_ip = "' . $ipaddress . '"' );
-			if ( $check_ip ) {
-				// This IP already downloaded this item
-				$should_count_download = false;
-			}
+		// Don't count if logging unique IPs and this IP has already downloaded (reuse cached result)
+		if ( $ip_already_logged ) {
+			$should_count_download = false;
 		}
 
 		// Increment cached download count (even if detailed logging is disabled)
