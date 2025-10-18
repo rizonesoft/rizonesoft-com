@@ -35,14 +35,14 @@ class gdm_Protected_Download_Request_Handler
 			//Hidden or no-extension file download is NOT allowed. Let's check if this is request for a hidden or no-ext file download.
 			if ( gdm_Utils_File_System_Related::check_is_hidden_or_no_extension_file($file_path) ) {
 				// Found a hidden or no-ext file. Do not use PHP dispatch.
-				wp_die(__('Hidden file or no extension filename detected. File could not be dispatched!', 'gluon-download-manager'));
+				wp_die( esc_html__('Hidden file or no extension filename detected. File could not be dispatched!', 'gluon-download-manager') );
 			}
 		}
 
 		// Check if the file extension is disallowed.
 		if ( ! gdm_Utils_File_System_Related::check_is_file_extension_allowed($file_path) ) {
 			// Disallowed file extension; Don't use PHP dispatching (instead use the normal redirect).
-			wp_die(__('Disallowed extension, file could not be dispatched!', 'gluon-download-manager'));
+			wp_die( esc_html__('Disallowed extension, file could not be dispatched!', 'gluon-download-manager') );
 		}
 
 		// TODO: Add code to choose file dispatcher function.
@@ -51,7 +51,7 @@ class gdm_Protected_Download_Request_Handler
 		// Dispatch the file and check if response is true. If not, then response is a message string.
 		$response = self::gdm_download_using_fopen($file_path);
 		if ($response !== true) {
-			trigger_error( $response );
+			trigger_error( esc_html( $response ) );
 		}
 		exit;
 	}
@@ -95,7 +95,7 @@ class gdm_Protected_Download_Request_Handler
 				return 'Error on fread() after ' . number_format($chunks_transferred) . ' chunks transferred.';
 			}
 			// Chunk was successfully read...
-			print($chunk); // Send the chunk on its way.
+			print($chunk); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binary file content for download, must not be escaped
 			flush(); // Flush the PHP output buffers.
 			$chunks_transferred += 1; // Increment the transferred chunk counter.
 			// Check connection status...
