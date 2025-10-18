@@ -317,8 +317,8 @@ class gdm_List_Table extends WP_List_Table {
 						<?php _e('Export Logs', 'gluon-download-manager') ?>
 					</button>
 					<input type="hidden" id="gdm-export-logs-search" value="<?php _admin_search_query(); ?>"/>
-					<input type="hidden" id="gdm-export-logs-order" value="<?php isset($_REQUEST['order']) ? esc_attr_e( $_REQUEST['order'] ) : '' ?>" />
-					<input type="hidden" id="gdm-export-logs-orderby" value="<?php isset($_REQUEST['orderby']) ? esc_attr_e( $_REQUEST['orderby'] ) : '' ?>" />
+					<input type="hidden" id="gdm-export-logs-order" value="<?php echo isset($_REQUEST['order']) ? esc_attr( $_REQUEST['order'] ) : ''; ?>" />
+					<input type="hidden" id="gdm-export-logs-orderby" value="<?php echo isset($_REQUEST['orderby']) ? esc_attr( $_REQUEST['orderby'] ) : ''; ?>" />
 					<input type="hidden" id="gdm-export-logs-nonce" value="<?php echo wp_create_nonce( 'gdm-export-logs-nonce-action' ) ?>" />
 				</fieldset>
 			</div>

@@ -120,7 +120,7 @@ class gdm_SWPM_Integration {
 				if ( ! $this->is_download_permitted( $download_id ) ) {
 					$link->removeAttribute( 'href' );
 					$link->setAttribute( 'class', 'gdm_download disabled' );
-					$link->setAttribute( 'title', __( 'This download is restricted to authorized members only.' ) );
+					$link->setAttribute( 'title', __( 'This download is restricted to authorized members only.', 'gluon-download-manager' ) );
 					$disabled_btn_html = $dom->saveHTML();
 
 					return $disabled_btn_html;

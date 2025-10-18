@@ -15,7 +15,8 @@ function handle_gdm_download_via_direct_post() {
 		$download_title = get_the_title( $download_id );
 		$download_link = get_post_meta( $download_id, 'gdm_upload', true );		
 		if ( empty( $download_link ) ) {
-			wp_die( printf( __( 'Error! This download item (%s) does not have any download link. Edit this item and specify a downloadable file URL for it.', 'gluon-download-manager' ), $download_id ) );
+			/* translators: %s: download item ID */
+			wp_die( sprintf( __( 'Error! This download item (%s) does not have any download link. Edit this item and specify a downloadable file URL for it.', 'gluon-download-manager' ), $download_id ) );
 		}
 
 		gdm_recaptcha_verify();
