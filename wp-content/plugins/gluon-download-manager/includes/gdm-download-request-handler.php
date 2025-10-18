@@ -315,7 +315,7 @@ function gdm_recaptcha_verify() {
     }
 
     if (!isset($_REQUEST['g-recaptcha-response'])){
-        if ( $_SERVER['REQUEST_METHOD'] == 'GET' ){
+        if ( $_SERVER['REQUEST_METHOD'] === 'GET' ){
             // Most probably is a download request via direct link. Visitor must validate captcha through a intermediate page.
             gdm_Debug::log('This is a download request via direct download link. So captcha needs to be verified first through an intermediate page.', true);
             gdm_show_intermediate_page_for_captcha_validation();
@@ -326,16 +326,22 @@ function gdm_recaptcha_verify() {
     }
 
     $token = sanitize_text_field( $_REQUEST['g-recaptcha-response'] );
+    
+    // Cache get_option call (optimization - Issue #5)
+    $main_advanced_opts = get_option( 'gdm_advanced_options' );
 
     if ( gdm_is_recaptcha_v3_enabled() ) {
-        gdm_recaptcha_v3_verify($token);
+        gdm_recaptcha_v3_verify( $token, $main_advanced_opts );
     } else if ( gdm_is_recaptcha_v2_enabled() ) {
-        gdm_recaptcha_v2_verify($token);
+        gdm_recaptcha_v2_verify( $token, $main_advanced_opts );
     }
 }
 
-function gdm_recaptcha_v2_verify( $token ) {
-	$main_advanced_opts   = get_option( 'gdm_advanced_options' );
+function gdm_recaptcha_v2_verify( $token, $main_advanced_opts = null ) {
+	// Use cached options or fetch if not provided
+	if ( $main_advanced_opts === null ) {
+		$main_advanced_opts = get_option( 'gdm_advanced_options' );
+	}
 	$recaptcha_secret_key = $main_advanced_opts['recaptcha_secret_key'];
 	$response             = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret={$recaptcha_secret_key}&response={$token}" );
 	$response             = json_decode( $response['body'], 1 );
@@ -347,8 +353,11 @@ function gdm_recaptcha_v2_verify( $token ) {
 	}
 }
 
-function gdm_recaptcha_v3_verify( $token ) {
-	$main_advanced_opts   = get_option( 'gdm_advanced_options' );
+function gdm_recaptcha_v3_verify( $token, $main_advanced_opts = null ) {
+	// Use cached options or fetch if not provided
+	if ( $main_advanced_opts === null ) {
+		$main_advanced_opts = get_option( 'gdm_advanced_options' );
+	}
 	$recaptcha_secret_key = $main_advanced_opts['recaptcha_v3_secret_key'];
 	$response             = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret={$recaptcha_secret_key}&response={$token}" );
 	$response             = json_decode( $response['body'], 1 );

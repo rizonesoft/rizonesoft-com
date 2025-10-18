@@ -1158,10 +1158,10 @@ function gdm_downloads_columns_content( $column_name, $post_ID ) {
 		$file     = isset( $old_file ) ? $old_file : '--';
 		echo '<p class="gdm_downloads_file">' . esc_html( $file ) . '</p>';
 	}
-	if ( $column_name == 'gdm_downloads_count' ) {
+	if ( $column_name === 'gdm_downloads_count' ) {
 		global $wpdb;
-		$wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdm_downloads WHERE post_id=%s', $post_ID ) );
-		echo '<p class="gdm_downloads_count">' . esc_html( $wpdb->num_rows ) . '</p>';
+		$download_count = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . $wpdb->prefix . 'gdm_downloads WHERE post_id=%d', $post_ID ) );
+		echo '<p class="gdm_downloads_count">' . esc_html( $download_count ) . '</p>';
 	}
 }
 // Omit closing PHP tag to prevent "headers already sent" errors
