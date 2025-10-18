@@ -9,6 +9,7 @@ class GDM_Debug {
 	static function log( $msg, $success = true ) {
 		$opts = get_option( 'GDM_downloads_options' );
 		if ( isset( $opts['enable_debug'] ) && $opts['enable_debug'] == 'on' ) {
+			// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- date() is intentional for debug log timestamps in local timezone
 			file_put_contents( WP_GDM_LOG_FILE, date( 'Y-m-d H:i:s', time() ) . ': [' . ( $success === true ? 'SUCCESS' : 'FAIL' ) . '] ' . $msg . "\r\n", FILE_APPEND );
 		}
 	}
@@ -37,6 +38,7 @@ class GDM_Debug {
 
 		//Put the array content into a string
 		ob_start();
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- print_r() is intentional for debug logging
 		print_r( $array_to_write );
 		$var = ob_get_contents();
 		ob_end_clean();
@@ -50,6 +52,7 @@ class GDM_Debug {
 	}
         
 	static function reset_log() {
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- date() is intentional for debug log timestamps in local timezone
 		file_put_contents( WP_GDM_LOG_FILE, date( 'Y-m-d H:i:s', time() ) . ': Log has been reset.' . "\r\n" );
 		file_put_contents( WP_GDM_LOG_FILE, '-------------------------------------------------------' . "\r\n", FILE_APPEND );
 	}
