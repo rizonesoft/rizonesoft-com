@@ -125,6 +125,11 @@ function gdm_add_database_indexes() {
 	if ( ! in_array( 'date_time_index', $existing_indexes ) ) {
 		$wpdb->query( "ALTER TABLE $table_name ADD INDEX date_time_index (date_time)" );
 	}
+	
+	// Add composite index for unique IP checks (post_id, visitor_ip)
+	if ( ! in_array( 'post_id_visitor_ip_index', $existing_indexes ) ) {
+		$wpdb->query( "ALTER TABLE $table_name ADD INDEX post_id_visitor_ip_index (post_id, visitor_ip(45))" );
+	}
 }
 
 /*
