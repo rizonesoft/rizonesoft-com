@@ -11,7 +11,6 @@
 	add_submenu_page( 'edit.php?post_type=gdm_downloads', __( 'Logs', 'gluon-download-manager' ), __( 'Logs', 'gluon-download-manager' ), $gdm_pages_capability, 'gdm-logs', 'gdm_create_logs_page' );
 	add_submenu_page( 'edit.php?post_type=gdm_downloads', __( 'Stats', 'gluon-download-manager' ), __( 'Stats', 'gluon-download-manager' ), $gdm_pages_capability, 'gdm-stats', 'gdm_create_stats_page' );
 	add_submenu_page( 'edit.php?post_type=gdm_downloads', __( 'Settings', 'gluon-download-manager' ), __( 'Settings', 'gluon-download-manager' ), $gdm_pages_capability, 'gdm-settings', 'gdm_create_settings_page' );
-	add_submenu_page( 'edit.php?post_type=gdm_downloads', __( 'Add-ons', 'gluon-download-manager' ), __( 'Add-ons', 'gluon-download-manager' ), $gdm_pages_capability, 'gdm-addons', 'gdm_create_addons_page' );
 }
 
 add_filter( 'allowed_options', 'gdm_admin_menu_function_hook' );
@@ -144,23 +143,6 @@ function gdm_create_settings_page() {
 			echo wp_kses(
 				// translators: %s = URL to documentation page
 				sprintf( __( 'Please read the <a target="_blank" href="%s">Simple Download Monitor</a> plugin setup instructions and tutorials to learn how to configure and use it.', 'gluon-download-manager' ), 'https://simple-download-monitor.com/download-monitor-tutorials/' ),
-				array(
-					'a' => array(
-						'target' => array(),
-						'href'   => array(),
-					),
-				)
-			);
-			?>
-			</div>
-		</div>
-		<div class="postbox" style="min-width: inherit;">
-			<h3 class="hndle"><label for="title"><?php esc_html_e( 'Add-ons', 'gluon-download-manager' ); ?></label></h3>
-			<div class="inside">
-			<?php
-			echo wp_kses(
-				// translators: %s = URL to add-ons page
-				sprintf( __( 'Want additional functionality? Check out our <a target="_blank" href="%s">Add-Ons!</a>', 'gluon-download-manager' ), 'edit.php?post_type=gdm_downloads&page=gdm-addons' ),
 				array(
 					'a' => array(
 						'target' => array(),
@@ -909,6 +891,3 @@ function gdm_create_stats_page() {
 		);
 }
 
-function gdm_create_addons_page() {
-	include WP_GLUON_DL_MANAGER_PATH . 'includes/admin-side/gdm-admin-add-ons-page.php';
-}
