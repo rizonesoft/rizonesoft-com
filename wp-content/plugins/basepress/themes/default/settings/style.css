@@ -1,0 +1,55 @@
+#update-nag, .update-nag{
+	display: none !important;
+}
+
+.bpmt-body{
+	min-height: 200px;
+	margin: 20px 0;
+	font-size: 14px;
+}
+
+.bpmt-body *{
+	box-sizing: border-box;
+}
+
+.bpmt-card{
+	margin-bottom: 20px;
+	padding: 25px;
+	background-color: #fff;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+/* Settings card is now always visible */
+.bpmt-card.settings-card{
+	display: block;
+}
+
+/* Settings menu button styling removed as we're using standard WordPress submit button */
+
+/* Color picker fields */
+.wp-picker-container {
+	display: inline-block;
+}
+
+#bpmt-default-theme table{
+	width: 100%;
+}
+
+#bpmt-default-theme .setting-title{
+	vertical-align: top;
+	text-align: left;
+	padding: 20px 10px 20px 0;
+	width: 200px;
+	line-height: 1.3;
+	font-weight: 600;
+}
+
+.image-preview{
+	width: 303px;
+	height: 200px;
+	border: 1px solid #ddd;
+	padding: 4px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}

@@ -1,0 +1,27 @@
+# Ignore everything by default
+/*
+
+# But track these directories
+!.gitignore
+!/wp-content/
+
+# Inside wp-content, ignore everything by default
+/wp-content/*
+
+# Except these directories
+!/wp-content/plugins/
+!/wp-content/themes/
+!/wp-content/uploads/
+
+# Ignore common files even in tracked directories
+.DS_Store
+Thumbs.db
+*.log
+*.cache
+node_modules/
+.env
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
