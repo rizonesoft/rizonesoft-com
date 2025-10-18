@@ -292,10 +292,16 @@ class gdm_Migration_Handler {
 
 	private function get_gdm_post_id_from_sdm_id( $sdm_post_id ) {
 		// Query posts that have the _migrated_from_sdm_id meta key
+		// Using meta_query instead of meta_key/meta_value for better performance
 		$gdm_posts = get_posts( array(
 			'post_type' => 'gdm_downloads',
-			'meta_key' => '_migrated_from_sdm_id',
-			'meta_value' => $sdm_post_id,
+			'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Necessary for migration, runs rarely
+				array(
+					'key' => '_migrated_from_sdm_id',
+					'value' => $sdm_post_id,
+					'compare' => '=',
+				),
+			),
 			'posts_per_page' => 1,
 			'fields' => 'ids',
 		) );

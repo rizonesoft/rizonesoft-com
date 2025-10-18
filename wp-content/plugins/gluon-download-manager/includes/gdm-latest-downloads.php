@@ -31,7 +31,7 @@ function gdm_show_latest_downloads( $args ) {
 		$terms = $category_slug;
 
 		//Add the category slug parameters for the query args
-		$query_args['tax_query'] = array(
+		$query_args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Required for category filtering in latest downloads
 			array(
 				'taxonomy' => 'gdm_categories',
 				'field'    => $field,

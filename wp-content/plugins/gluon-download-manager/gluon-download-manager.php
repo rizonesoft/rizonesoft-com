@@ -1077,7 +1077,7 @@ function GDM_pop_cats_ajax_call() {
 		array(
 			'post_type'   => 'GDM_downloads',
 			'numberposts' => -1,
-			'tax_query'   => array(
+			'tax_query'   => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Required for category duplicate check
 				array(
 					'taxonomy'         => 'GDM_categories',
 					'field'            => 'slug',

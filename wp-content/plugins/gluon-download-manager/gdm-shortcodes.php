@@ -297,7 +297,7 @@ function gdm_handle_category_shortcode( $args ) {
 		'post_type'      => 'gdm_downloads',
 		'show_posts'     => -1,
 		'posts_per_page' => $posts_per_page,
-		'tax_query'      => $tax_query,
+		'tax_query'      => $tax_query, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Required for category filtering
 		'orderby'        => $orderby,
 		'order'          => $order,
 		'paged'          => $paged,
