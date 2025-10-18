@@ -51,6 +51,7 @@ class gdm_Protected_Download_Request_Handler
 		// Dispatch the file and check if response is true. If not, then response is a message string.
 		$response = self::gdm_download_using_fopen($file_path);
 		if ($response !== true) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- trigger_error() used for file streaming error reporting
 			trigger_error( esc_html( $response ) );
 		}
 		exit;
@@ -60,6 +61,7 @@ class gdm_Protected_Download_Request_Handler
 		$file_name = basename($file_path);
 		// Download methods #1, #2, #4 and #5.
 		// -- The Assurer, 2010-10-22.
+		// phpcs:disable WordPress.WP.AlternativeFunctions -- fopen/fread/fclose are REQUIRED for streaming file downloads, WP_Filesystem is not designed for this
 		$chunk_size = 1024 * $chunk_blocks; // Number of bytes per chunk.
 		$fp = @fopen($file_path, "rb"); // Open source file.
 		if ($fp === false) {
@@ -116,6 +118,7 @@ class gdm_Protected_Download_Request_Handler
 		}
 		// Well, we finally made it without detecting any server-side errors!
 		@fclose($fp); // Close the source file.
+		// phpcs:enable WordPress.WP.AlternativeFunctions
 		return true; // Success!
 	}
 	
