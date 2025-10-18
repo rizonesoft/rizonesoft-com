@@ -1,0 +1,122 @@
+<?php
+
+function gdm_generate_compact_template_popular_downloads_display_output( $get_posts, $args ) {
+
+    $output = "";
+
+    foreach ( $get_posts as $item ) {
+	$opts = $args;
+	$opts[ 'id' ] = $item->ID;
+	$output .= gdm_generate_compact_template_display_output( $opts );
+    }
+    $output .= '<div class="gdm_clear_float"></div>';
+    return $output;
+}
+
+function gdm_generate_compact_template_latest_downloads_display_output( $get_posts, $args ) {
+
+    $output = "";
+
+    foreach ( $get_posts as $item ) {
+	$output .= gdm_generate_compact_template_display_output(
+	array_merge( $args, array( 'id' => $item->ID ) )
+	);
+    }
+    $output .= '<div class="gdm_clear_float"></div>';
+    return $output;
+}
+
+function gdm_generate_compact_template_category_display_output( $get_posts, $args ) {
+
+    $output = "";
+
+    foreach ( $get_posts as $item ) {
+        $tpl_data = array_merge( $args, array( 'id' => $item->ID ) );
+        $output .= gdm_load_template('compact', $tpl_data, false);
+    }
+    $output .= '<div class="gdm_clear_float"></div>';
+    return $output;
+}
+
+/*
+ * Generates the output of a single item using compact template style
+ * $args array can have the following parameters
+ * id, template, button_text, new_window
+ */
+
+function gdm_generate_compact_template_display_output( $args ) {
+
+    $shortcode_atts = sanitize_gdm_create_download_shortcode_atts(
+    shortcode_atts( array(
+	'id'		 => '',
+	'button_text'	 => __( 'View Details', 'gluon-download-manager' ),
+	'new_window'	 => '',
+	'color'		 => '',
+	'css_class'	 => '',
+	'show_size'	 => '',
+	'show_version'	 => '',
+    ), $args )
+    );
+
+    // Make shortcode attributes available in function local scope.
+    extract( $shortcode_atts );
+
+    // Check the download ID
+    if ( empty( $id ) ) {
+	return '<div class="gdm_error_msg">Error! The shortcode is missing the ID parameter. Please refer to the documentation to learn the shortcode usage.</div>';
+    }
+
+    $id = intval( $id );
+
+    // See if new window parameter is set
+    if ( empty( $new_window ) ) {
+	$new_window = get_post_meta( $id, 'gdm_item_new_window', true );
+    }
+    $window_target = empty( $new_window ) ? '_self' : '_blank';
+    $window_target = apply_filters('gdm_download_window_target', $window_target);
+
+    // Get CPT title
+    $item_title = get_the_title( $id );
+
+    // Get download details page URL
+    $dl_post_url = get_permalink($id);
+    $link_text = __( 'View Details', 'gluon-download-manager' );
+    $download_details_link_code = '<a href="' . $dl_post_url . '" class="gdm_fancy3_view_details" title="' . esc_html($item_title) . '" target="' . $window_target . '">' . esc_attr($link_text) . '</a>';
+
+    $output = '';
+
+    $output .= '<div class="gdm_fancy3_download_item gdm_template_compact ' . esc_attr($css_class) . '">';
+    $output .= '<div class="gdm_fancy3_download_item_left">';
+    $output .= '<span class="gdm_fancy3_download_title">' . esc_html($item_title) . '</span>';
+    $output .= '</div>'; //End of .gdm_fancy3_download_title
+
+    $output .= '<div class="gdm_fancy3_download_right">';
+
+    //apply filter on view details button HTML code
+    $download_details_link_code = apply_filters( 'gdm_compact_template_view_details_link_code_html', $download_details_link_code );
+
+    $output .= '<span class="gdm_fancy3_view_details_link">' . $download_details_link_code . '</span>';
+
+    $output .= '</div>'; //end .gdm_fancy3_download_right
+    $output .= '<div class="gdm_clear_float"></div>';
+    $output .= '</div>'; //end .gdm_fancy3_download_item
+
+    return $output;
+}
+
+// Backward compatibility aliases (fancy3 → compact)
+function gdm_generate_fancy3_popular_downloads_display_output( $get_posts, $args ) {
+    return gdm_generate_compact_template_popular_downloads_display_output( $get_posts, $args );
+}
+
+function gdm_generate_fancy3_latest_downloads_display_output( $get_posts, $args ) {
+    return gdm_generate_compact_template_latest_downloads_display_output( $get_posts, $args );
+}
+
+function gdm_generate_fancy3_category_display_output( $get_posts, $args ) {
+    return gdm_generate_compact_template_category_display_output( $get_posts, $args );
+}
+
+function gdm_generate_fancy3_display_output( $args ) {
+    return gdm_generate_compact_template_display_output( $args );
+}
