@@ -9,14 +9,14 @@ function handle_gdm_download_via_direct_post() {
 		global $wpdb;
 		$download_id = isset( $_REQUEST['download_id'] ) ? absint( $_REQUEST['download_id'] ) : 0;
 		if ( ! $download_id ) {
-			wp_die( __( 'Error! Incorrect download item id.', 'gluon-download-manager' ) );
+			wp_die( esc_html__( 'Error! Incorrect download item id.', 'gluon-download-manager' ) );
 		}
 
 		$download_title = get_the_title( $download_id );
 		$download_link = get_post_meta( $download_id, 'gdm_upload', true );		
 		if ( empty( $download_link ) ) {
 			/* translators: %s: download item ID */
-			wp_die( sprintf( __( 'Error! This download item (%s) does not have any download link. Edit this item and specify a downloadable file URL for it.', 'gluon-download-manager' ), $download_id ) );
+			wp_die( esc_html( sprintf( __( 'Error! This download item (%s) does not have any download link. Edit this item and specify a downloadable file URL for it.', 'gluon-download-manager' ), $download_id ) ) );
 		}
 
 		gdm_recaptcha_verify();
@@ -30,18 +30,18 @@ function handle_gdm_download_via_direct_post() {
 				do_action( 'gdm_process_download_request_no_password' );
 
 				$dl_post_url = get_permalink( $download_id );
-				$error_msg   = __( 'Error! This download requires a password.', 'gluon-download-manager' );
+				$error_msg   = esc_html__( 'Error! This download requires a password.', 'gluon-download-manager' );
 				$error_msg  .= '<p>';
-				$error_msg  .= '<a href="' . $dl_post_url . '">' . __( 'Click here', 'gluon-download-manager' ) . '</a>';
-				$error_msg  .= __( ' and enter a valid password for this item', 'gluon-download-manager' );
+				$error_msg  .= '<a href="' . esc_url( $dl_post_url ) . '">' . esc_html__( 'Click here', 'gluon-download-manager' ) . '</a>';
+				$error_msg  .= esc_html__( ' and enter a valid password for this item', 'gluon-download-manager' );
 				$error_msg  .= '</p>';
-				wp_die( $error_msg );
+				wp_die( wp_kses_post( $error_msg ) );
 			}
 			if ( $post_pass != $pass_val ) {
 				//Incorrect password submitted.
 				do_action( 'gdm_process_download_request_incorrect_password' );
 
-				wp_die( __( 'Error! Incorrect password. This download requires a valid password.', 'gluon-download-manager' ) );
+				wp_die( esc_html__( 'Error! Incorrect password. This download requires a valid password.', 'gluon-download-manager' ) );
 			} else {
 				//Password is valid. Go ahead with the download
 			}
@@ -100,9 +100,9 @@ function handle_gdm_download_via_direct_post() {
 					}
 
 					$tpl      = __( '__Click here__ to go to login page.', 'gluon-download-manager' );
-					$loginMsg = preg_replace( '/__(.*)__/', ' <a href="' . $login_page_url . '">$1</a> $2', $tpl );
+					$loginMsg = preg_replace( '/__(.*)__/', ' <a href="' . esc_url( $login_page_url ) . '">$1</a> $2', $tpl );
 				}
-				wp_die( __( 'You need to be logged in to download this file.', 'gluon-download-manager' ) . $loginMsg );
+				wp_die( wp_kses_post( esc_html__( 'You need to be logged in to download this file.', 'gluon-download-manager' ) . $loginMsg ) );
 			}
 		}
 
@@ -219,7 +219,7 @@ function handle_gdm_download_via_direct_post() {
 				//Download request was logged successfully
 			} else {
 				//Failed to log the download request
-				wp_die( __( 'Error! Failed to log the download request in the database table', 'gluon-download-manager' ) );
+				wp_die( esc_html__( 'Error! Failed to log the download request in the database table', 'gluon-download-manager' ) );
 			}
 		}
 
@@ -244,7 +244,7 @@ function handle_gdm_download_via_direct_post() {
 			$file_path = gdm_Utils_File_System_Related::get_uploaded_file_path_from_url($download_link);
 
 			if ( ! is_file( $file_path ) ) {
-				wp_die( __( 'File not found.', 'gluon-download-manager' ), 404 );
+				wp_die( esc_html__( 'File not found.', 'gluon-download-manager' ), 404 );
 			}
 
 			$is_hidden_or_noext_file_disallowed = isset( $main_option['general_allow_hidden_noext_dispatch'] ) ? empty( $main_option['general_allow_hidden_noext_dispatch'] ) : true;
@@ -284,12 +284,12 @@ function handle_gdm_download_via_direct_post() {
  */
 function gdm_dispatch_file( $filename ) {
 	if ( headers_sent() ) {
-		trigger_error( __FUNCTION__ . ": Cannot dispatch file $filename, headers already sent." );
+		trigger_error( esc_html( __FUNCTION__ . ": Cannot dispatch file $filename, headers already sent." ) );
 		return;
 	}
 
 	if ( ! is_readable( $filename ) ) {
-		trigger_error( __FUNCTION__ . ": Cannot dispatch file $filename, file is not readable." );
+		trigger_error( esc_html( __FUNCTION__ . ": Cannot dispatch file $filename, file is not readable." ) );
 		return;
 	}
 
@@ -322,7 +322,7 @@ function gdm_recaptcha_verify() {
             gdm_show_intermediate_page_for_captcha_validation();
         } else {
             // Request method POST.
-            wp_die( '<p><strong>' . __( 'Error! ', 'gluon-download-manager' ) . '</strong> ' . __( 'Google reCAPTCHA verification failed.', 'gluon-download-manager' ) . ' ' . __( 'Do you have JavaScript enabled?', 'gluon-download-manager' ) . "</p>\n\n<p><a href=" . wp_get_referer() . '>&laquo; ' . __( 'Back', 'gluon-download-manager' ) . '</a>', '', 403 );
+            wp_die( wp_kses_post( '<p><strong>' . esc_html__( 'Error! ', 'gluon-download-manager' ) . '</strong> ' . esc_html__( 'Google reCAPTCHA verification failed.', 'gluon-download-manager' ) . ' ' . esc_html__( 'Do you have JavaScript enabled?', 'gluon-download-manager' ) . "</p>\n\n<p><a href=" . esc_url( wp_get_referer() ) . '>&laquo; ' . esc_html__( 'Back', 'gluon-download-manager' ) . '</a>' ), '', 403 );
         }
     }
 
@@ -350,7 +350,7 @@ function gdm_recaptcha_v2_verify( $token, $main_advanced_opts = null ) {
 	if ( $response['success'] ) {
 		return true;
 	} else {
-		wp_die( '<p><strong>' . __( 'ERROR:', 'gluon-download-manager' ) . '</strong> ' . __( 'Google reCAPTCHA verification failed.', 'gluon-download-manager' ) . "</p>\n\n<p><a href=" . wp_get_referer() . '>&laquo; ' . __( 'Back', 'gluon-download-manager' ) . '</a>', '', 403 );
+		wp_die( wp_kses_post( '<p><strong>' . esc_html__( 'ERROR:', 'gluon-download-manager' ) . '</strong> ' . esc_html__( 'Google reCAPTCHA verification failed.', 'gluon-download-manager' ) . "</p>\n\n<p><a href=" . esc_url( wp_get_referer() ) . '>&laquo; ' . esc_html__( 'Back', 'gluon-download-manager' ) . '</a>' ), '', 403 );
 	}
 }
 
@@ -366,7 +366,7 @@ function gdm_recaptcha_v3_verify( $token, $main_advanced_opts = null ) {
 	if ( $response['success'] ) {
 		return true;
 	} else {
-		wp_die( '<p><strong>' . __( 'Error! ', 'gluon-download-manager' ) . '</strong> ' . __( 'Google reCAPTCHA v3 verification failed.', 'gluon-download-manager' ) . "</p>\n\n<p><a href=" . wp_get_referer() . '>&laquo; ' . __( 'Back', 'gluon-download-manager' ) . '</a>', '', 403 );
+		wp_die( wp_kses_post( '<p><strong>' . esc_html__( 'Error! ', 'gluon-download-manager' ) . '</strong> ' . esc_html__( 'Google reCAPTCHA v3 verification failed.', 'gluon-download-manager' ) . "</p>\n\n<p><a href=" . esc_url( wp_get_referer() ) . '>&laquo; ' . esc_html__( 'Back', 'gluon-download-manager' ) . '</a>' ), '', 403 );
 	}
 }
 
