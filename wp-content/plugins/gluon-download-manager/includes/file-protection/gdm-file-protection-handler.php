@@ -220,7 +220,7 @@ class gdm_File_Protection_Handler {
 
 		if (is_wp_error($attachment_id)){
 			gdm_Debug::log('Protected file thumbnail attachment could not be created!', false);
-			wp_die($attachment_id->get_error_message());
+			wp_die( esc_html( $attachment_id->get_error_message() ) );
 		}
 
 		// Generate attachment metadata
