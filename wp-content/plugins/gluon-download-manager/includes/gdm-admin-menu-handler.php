@@ -548,7 +548,7 @@ function gdm_handle_logs_main_tab_page() {
 		
 		echo '<div id="message" class="updated fade"><p>';
 		/* translators: %d: number of downloads with initialized cache */
-		printf( esc_html__( 'Cached download counts initialized for %d downloads!', 'gluon-download-manager' ), $updated_count );
+		printf( esc_html__( 'Cached download counts initialized for %d downloads!', 'gluon-download-manager' ), absint( $updated_count ) );
 		echo '</p></div>';
 	}
 
