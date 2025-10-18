@@ -420,8 +420,8 @@ function gdm_download_categories_shortcode() {
 
 		// Get terms (check if has parent)
 		$terms = get_terms(
-			$taxonomy,
 			array(
+				'taxonomy'   => $taxonomy,
 				'parent'     => $parent,
 				'hide_empty' => false,
 			)
