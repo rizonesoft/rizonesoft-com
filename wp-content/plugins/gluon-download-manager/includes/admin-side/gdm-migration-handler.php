@@ -312,13 +312,19 @@ class gdm_Migration_Handler {
 	private function get_success_message() {
 		$message = '<h3>' . __( 'Migration Completed Successfully!', 'gluon-download-manager' ) . '</h3>';
 		$message .= '<ul style="list-style: disc; margin-left: 20px;">';
+		/* translators: %d: number of downloads migrated */
 		$message .= '<li><strong>' . sprintf( __( 'Downloads migrated: %d', 'gluon-download-manager' ), $this->migrated['downloads'] ) . '</strong></li>';
+		/* translators: %d: number of logs migrated */
 		$message .= '<li><strong>' . sprintf( __( 'Logs migrated: %d', 'gluon-download-manager' ), $this->migrated['logs'] ) . '</strong></li>';
+		/* translators: %d: number of categories migrated */
 		$message .= '<li><strong>' . sprintf( __( 'Categories migrated: %d', 'gluon-download-manager' ), $this->migrated['categories'] ) . '</strong></li>';
+		/* translators: %d: number of tags migrated */
 		$message .= '<li><strong>' . sprintf( __( 'Tags migrated: %d', 'gluon-download-manager' ), $this->migrated['tags'] ) . '</strong></li>';
+		/* translators: %d: number of settings merged */
 		$message .= '<li><strong>' . sprintf( __( 'Settings merged: %d', 'gluon-download-manager' ), $this->migrated['settings'] ) . '</strong></li>';
 		
 		if ( $this->migrated['skipped'] > 0 ) {
+			/* translators: %d: number of items skipped */
 			$message .= '<li><em>' . sprintf( __( 'Items skipped (already exist): %d', 'gluon-download-manager' ), $this->migrated['skipped'] ) . '</em></li>';
 		}
 		

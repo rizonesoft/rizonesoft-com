@@ -70,6 +70,7 @@ class gdm_Backup_Handler {
 			$download_url = admin_url( 'admin-ajax.php?action=gdm_download_backup&file=' . urlencode( $filename ) . '&nonce=' . wp_create_nonce( 'gdm_download_backup_' . $filename ) );
 
 			$message = sprintf(
+				/* translators: %s: backup filename */
 				__( 'Backup created successfully! File: %s', 'gluon-download-manager' ),
 				'<strong>' . $filename . '</strong>'
 			);
@@ -268,13 +269,19 @@ class gdm_Backup_Handler {
 
 			$message = '<h3>' . __( 'Restore Completed Successfully!', 'gluon-download-manager' ) . '</h3>';
 			$message .= '<ul style="list-style: disc; margin-left: 20px;">';
+			/* translators: %d: number of downloads restored */
 			$message .= '<li><strong>' . sprintf( __( 'Downloads restored: %d', 'gluon-download-manager' ), $restored['downloads'] ) . '</strong></li>';
+			/* translators: %d: number of logs restored */
 			$message .= '<li><strong>' . sprintf( __( 'Logs restored: %d', 'gluon-download-manager' ), $restored['logs'] ) . '</strong></li>';
+			/* translators: %d: number of categories restored */
 			$message .= '<li><strong>' . sprintf( __( 'Categories restored: %d', 'gluon-download-manager' ), $restored['categories'] ) . '</strong></li>';
+			/* translators: %d: number of tags restored */
 			$message .= '<li><strong>' . sprintf( __( 'Tags restored: %d', 'gluon-download-manager' ), $restored['tags'] ) . '</strong></li>';
+			/* translators: %d: number of settings restored */
 			$message .= '<li><strong>' . sprintf( __( 'Settings restored: %d', 'gluon-download-manager' ), $restored['settings'] ) . '</strong></li>';
 			
 			if ( $restored['skipped'] > 0 ) {
+				/* translators: %d: number of items skipped */
 				$message .= '<li><em>' . sprintf( __( 'Items skipped (already exist): %d', 'gluon-download-manager' ), $restored['skipped'] ) . '</em></li>';
 			}
 			

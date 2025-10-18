@@ -433,7 +433,8 @@ function gdm_create_logs_page() {
 		$content .= '<a class="nav-tab' . $class . '" href="?post_type=gdm_downloads&page=gdm-logs' . $tab_query . '">' . $tab['name'] . '</a>';
 	}
 
-	echo "<h2>" . esc_html__( $gdm_logs_menu_tabs[$current]['title'], 'gluon-download-manager' )."</h2>";
+	// Tab titles are already translated in the array definition
+	echo "<h2>" . esc_html( $gdm_logs_menu_tabs[$current]['title'] ) . "</h2>";
 
 	echo '<h2 class="nav-tab-wrapper">';
 	echo wp_kses(
@@ -546,6 +547,7 @@ function gdm_handle_logs_main_tab_page() {
 		}
 		
 		echo '<div id="message" class="updated fade"><p>';
+		/* translators: %d: number of downloads with initialized cache */
 		printf( esc_html__( 'Cached download counts initialized for %d downloads!', 'gluon-download-manager' ), $updated_count );
 		echo '</p></div>';
 	}
@@ -895,7 +897,7 @@ function gdm_create_stats_page() {
 					'downloadsByDate'   => __( 'Downloads by Date', 'gluon-download-manager' ),
 					'date'              => __( 'Date', 'gluon-download-manager' ),
 					'numberOfDownloads' => __( 'Number of downloads', 'gluon-download-manager' ),
-					'downloads'         => __( 'Downloads', 'single-download-monitor' ),
+					'downloads'         => __( 'Downloads', 'gluon-download-manager' ),
 				),
 			)
 		);
