@@ -139,6 +139,7 @@ add_action( 'plugins_loaded', 'gdm_plugins_loaded_tasks' );
 
 function gdm_plugins_loaded_tasks() {
 	//Load language
+	// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Required for local/custom translations and backwards compatibility
 	load_plugin_textdomain( 'gluon-download-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	//Handle db upgrade stuff
