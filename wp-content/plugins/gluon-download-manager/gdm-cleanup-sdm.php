@@ -192,7 +192,7 @@ class GDM_Cleanup_SDM {
         
         echo '<tr>';
         echo '<td><strong>' . esc_html($label) . '</strong></td>';
-        echo '<td style="color: ' . $color . '; font-weight: bold;">' . $status . '</td>';
+        echo '<td style="color: ' . esc_attr($color) . '; font-weight: bold;">' . esc_html($status) . '</td>';
         echo '<td>' . esc_html($details) . '</td>';
         echo '</tr>';
     }
