@@ -376,6 +376,7 @@ function gdm_show_intermediate_page_for_captcha_validation() {
     if ( gdm_is_recaptcha_v3_enabled() ) {
         wp_enqueue_script('gdm-recaptcha-v3-scripts-lib');
         $content .=  wpautop(esc_html__('Verifying that you are human...', 'gluon-download-manager'));
+        // phpcs:ignore PluginCheck.CodeAnalysis.Offloading -- Google reCAPTCHA logo is part of reCAPTCHA service requirements
         $content .= '<img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="Verifying Captcha Spinner" class="gdm_g_captcha_spinner">';
     } else if (gdm_is_recaptcha_v2_enabled()) {
         $content .=  wpautop(esc_html__('Please verify that you are human', 'gluon-download-manager'));

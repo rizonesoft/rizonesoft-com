@@ -158,6 +158,7 @@ function gdm_init_time_tasks() {
 	gdm_check_redirect_query_and_settings();
 
 	if ( is_admin() ) {
+		// phpcs:ignore PluginCheck.CodeAnalysis.Offloading -- Google Charts must be loaded from Google CDN per their terms of service
 		//Register Google Charts library
 		wp_register_script( 'gdm_google_charts', 'https://www.gstatic.com/charts/loader.js', array(), null, true );
 		wp_register_style( 'gdm_jquery_ui_style', WP_GLUON_DL_MANAGER_URL . '/css/jquery.ui.min.css', array(), null, 'all' );
@@ -522,12 +523,12 @@ class gluonDownloadManager {
 		//Register the main settings with sanitization callback
 		register_setting( 'gdm_downloads_options', 'gdm_downloads_options', array( $this, 'gdm_sanitize_options' ) );
 		
-		//Register the advanced settings sections
-		register_setting( 'recaptcha_v3_options_section', 'gdm_advanced_options' );
-		register_setting( 'recaptcha_options_section', 'gdm_advanced_options' );
-		register_setting( 'termscond_options_section', 'gdm_advanced_options' );
-		register_setting( 'adsense_options_section', 'gdm_advanced_options' );
-		register_setting( 'maps_api_options_section', 'gdm_advanced_options' );
+		//Register the advanced settings sections with sanitization
+		register_setting( 'recaptcha_v3_options_section', 'gdm_advanced_options', array( $this, 'gdm_sanitize_advanced_options' ) );
+		register_setting( 'recaptcha_options_section', 'gdm_advanced_options', array( $this, 'gdm_sanitize_advanced_options' ) );
+		register_setting( 'termscond_options_section', 'gdm_advanced_options', array( $this, 'gdm_sanitize_advanced_options' ) );
+		register_setting( 'adsense_options_section', 'gdm_advanced_options', array( $this, 'gdm_sanitize_advanced_options' ) );
+		register_setting( 'maps_api_options_section', 'gdm_advanced_options', array( $this, 'gdm_sanitize_advanced_options' ) );
 
 		/*   * ************************** */
 		/* General Settings Section */
@@ -613,6 +614,28 @@ class gluonDownloadManager {
 			}
 			if ( isset( $sanitized['general_disallowed_file_ext_dispatch'] ) ) {
 				$sanitized['general_disallowed_file_ext_dispatch'] = sanitize_text_field( $sanitized['general_disallowed_file_ext_dispatch'] );
+			}
+			
+			return $sanitized;
+		}
+		
+		return $existing_options;
+	}
+
+	public function gdm_sanitize_advanced_options( $input ) {
+		// Get existing options
+		$existing_options = get_option( 'gdm_advanced_options', array() );
+		
+		// Merge with new input to preserve existing values
+		if ( is_array( $input ) ) {
+			$sanitized = array_merge( $existing_options, $input );
+			
+			// Sanitize text fields
+			$text_fields = array( 'recaptcha_site_key', 'recaptcha_secret_key', 'recaptcha_v3_site_key', 'recaptcha_v3_secret_key', 'termscond_text', 'adsense_code', 'maps_api_key' );
+			foreach ( $text_fields as $field ) {
+				if ( isset( $sanitized[ $field ] ) ) {
+					$sanitized[ $field ] = sanitize_text_field( $sanitized[ $field ] );
+				}
 			}
 			
 			return $sanitized;

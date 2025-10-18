@@ -109,7 +109,7 @@ class gdm_SWPM_Integration {
 		foreach ( $links as $link ) {
 			$href = $link->getAttribute( 'href' );
 			// Parse the URL to get query parameters
-			$query = parse_url( $href, PHP_URL_QUERY );
+			$query = wp_parse_url( $href, PHP_URL_QUERY );
 			if (empty($query)){
 				// No query args found.
 				break;
