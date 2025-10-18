@@ -465,14 +465,14 @@ class gdm_Backup_Handler {
 add_action( 'wp_ajax_gdm_download_backup', 'gdm_handle_backup_download' );
 function gdm_handle_backup_download() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( __( 'Permission denied.', 'gluon-download-manager' ) );
+		wp_die( esc_html__( 'Permission denied.', 'gluon-download-manager' ) );
 	}
 
 	$filename = isset( $_GET['file'] ) ? sanitize_file_name( $_GET['file'] ) : '';
 	$nonce = isset( $_GET['nonce'] ) ? $_GET['nonce'] : '';
 
 	if ( ! $filename || ! wp_verify_nonce( $nonce, 'gdm_download_backup_' . $filename ) ) {
-		wp_die( __( 'Invalid request.', 'gluon-download-manager' ) );
+		wp_die( esc_html__( 'Invalid request.', 'gluon-download-manager' ) );
 	}
 
 	$upload_dir = wp_upload_dir();
@@ -480,7 +480,7 @@ function gdm_handle_backup_download() {
 	$filepath = $backup_dir . '/' . $filename;
 
 	if ( ! file_exists( $filepath ) ) {
-		wp_die( __( 'Backup file not found.', 'gluon-download-manager' ) );
+		wp_die( esc_html__( 'Backup file not found.', 'gluon-download-manager' ) );
 	}
 
 	// Send file for download
