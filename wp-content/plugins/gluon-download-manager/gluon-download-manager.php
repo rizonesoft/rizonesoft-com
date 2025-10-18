@@ -484,9 +484,10 @@ class gluonDownloadManager {
 			wp_localize_script( 'gdm-recaptcha-scripts-js', 'gdm_recaptcha_opt', array( 'site_key' => $siteKey ) );
 			wp_register_script( 'gdm-recaptcha-v3-scripts-lib', 'https://www.google.com/recaptcha/api.js?render='. esc_attr($siteKey) . '&onload=gdm_reCaptcha_v3', array('gdm-recaptcha-scripts-js')) ;
 		} else if ( gdm_is_recaptcha_v2_enabled() ) {
-			wp_register_script( 'gdm-recaptcha-scripts-js', WP_GLUON_DL_MANAGER_URL . '/js/gdm_g_recaptcha.js', array(), true );
+			wp_register_script( 'gdm-recaptcha-scripts-js', WP_GLUON_DL_MANAGER_URL . '/js/gdm_g_recaptcha.js', array(), WP_GLUON_DL_MANAGER_VERSION );
 			wp_localize_script( 'gdm-recaptcha-scripts-js', 'gdm_recaptcha_opt', array( 'site_key' => $main_advanced_opts['recaptcha_site_key'] ) );
-			wp_register_script( 'gdm-recaptcha-scripts-lib', '//www.google.com/recaptcha/api.js?hl=' . get_locale() . '&onload=gdm_reCaptcha&render=explicit', array(), false );
+			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion -- Google reCAPTCHA API is externally hosted and auto-updates
+			wp_register_script( 'gdm-recaptcha-scripts-lib', '//www.google.com/recaptcha/api.js?hl=' . get_locale() . '&onload=gdm_reCaptcha&render=explicit', array(), null );
 			wp_enqueue_script( 'gdm-recaptcha-scripts-js' );
 			wp_enqueue_script( 'gdm-recaptcha-scripts-lib' );
 		}
