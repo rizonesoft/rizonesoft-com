@@ -218,7 +218,7 @@ function gdm_create_settings_page() {
 			<h3 class="hndle"><label for="title"><?php esc_html_e( 'Want to Sell Digital Downloads?', 'gluon-download-manager' ); ?></label></h3>
 			<div class="inside">
 			<?php
-                        _e( 'Check out the fast and simple ', 'gluon-download-manager' );
+                        esc_html_e( 'Check out the fast and simple ', 'gluon-download-manager' );
 			echo wp_kses(
 				// translators: %s = Twitter URL
 				sprintf( __( '<a target="_blank" href="%s">WP Express Checkout</a> plugin.', 'gluon-download-manager' ), 'https://wordpress.org/plugins/wp-express-checkout/' ),
@@ -816,8 +816,8 @@ function gdm_create_stats_page() {
 					<div class="wrap">
 						<table class="widefat">
 							<thead>
-							<th><strong><?php _e( 'User', 'gluon-download-manager' ); ?></strong></th>
-							<th><strong><?php _e( 'Total Downloads', 'gluon-download-manager' ); ?></strong></th>
+							<th><strong><?php esc_html_e( 'User', 'gluon-download-manager' ); ?></strong></th>
+							<th><strong><?php esc_html_e( 'Total Downloads', 'gluon-download-manager' ); ?></strong></th>
 							</thead>
 							<tbody>
 							<?php
@@ -831,8 +831,8 @@ function gdm_create_stats_page() {
 							<?php } ?>
 							</tbody>
 							<tfoot>
-							<th><strong><?php _e( 'User', 'gluon-download-manager' ); ?></strong></th>
-							<th><strong><?php _e( 'Total Downloads', 'gluon-download-manager' ); ?></strong></th>
+							<th><strong><?php esc_html_e( 'User', 'gluon-download-manager' ); ?></strong></th>
+							<th><strong><?php esc_html_e( 'Total Downloads', 'gluon-download-manager' ); ?></strong></th>
 							</tfoot>
 						</table>
 					</div>
