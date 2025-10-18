@@ -837,10 +837,10 @@ class gluonDownloadManager {
 		echo "<select name='gdm_downloads_options[admin-dashboard-access-permission]' >";
 		foreach ( $options as $key => $value ) {
 			$is_selected = ( $key == $selected ) ? 'selected="selected"' : '';
-			echo '<option ' . $is_selected . ' value="' . esc_attr( $key ) . '">' . esc_attr( $value ) . '</option>';
+			echo '<option ' . esc_attr( $is_selected ) . ' value="' . esc_attr( $key ) . '">' . esc_attr( $value ) . '</option>';
 		}
 		echo '</select>';
-		echo '<br/><i>' . $msg . '</i>';
+		echo '<br/><i>' . esc_html( $msg ) . '</i>';
 	}
 
 	public function download_button_color_cb() {
