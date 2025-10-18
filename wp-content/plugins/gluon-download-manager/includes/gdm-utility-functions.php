@@ -579,6 +579,15 @@ function gdm_insert_download_to_logs_table( $download_id ) {
 	if ( isset( $main_option['admin_dont_log_bots'] ) && gdm_visitor_is_bot() ) {
 		$should_count_download = false;
 	}
+	
+	// Don't count if logging unique IPs and this IP has already downloaded
+	if ( $unique_ips === true ) {
+		$check_ip = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'gdm_downloads WHERE post_id="' . $download_id . '" AND visitor_ip = "' . $ipaddress . '"' );
+		if ( $check_ip ) {
+			// This IP already downloaded this item
+			$should_count_download = false;
+		}
+	}
 
 	// Increment cached download count (even if detailed logging is disabled)
 	if ( $should_count_download ) {
