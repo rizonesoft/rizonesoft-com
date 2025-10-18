@@ -60,6 +60,7 @@ class gdm_Backup_Handler {
 			}
 
 			// Create backup file
+			// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Intentionally using date() for filename timestamp in local timezone
 			$filename = 'gdm-backup-' . date( 'Y-m-d-His' ) . '.json';
 			$filepath = $this->backup_dir . '/' . $filename;
 			
@@ -468,8 +469,8 @@ function gdm_handle_backup_download() {
 		wp_die( esc_html__( 'Permission denied.', 'gluon-download-manager' ) );
 	}
 
-	$filename = isset( $_GET['file'] ) ? sanitize_file_name( $_GET['file'] ) : '';
-	$nonce = isset( $_GET['nonce'] ) ? $_GET['nonce'] : '';
+	$filename = isset( $_GET['file'] ) ? sanitize_file_name( wp_unslash( $_GET['file'] ) ) : '';
+	$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 
 	if ( ! $filename || ! wp_verify_nonce( $nonce, 'gdm_download_backup_' . $filename ) ) {
 		wp_die( esc_html__( 'Invalid request.', 'gluon-download-manager' ) );
@@ -490,6 +491,7 @@ function gdm_handle_backup_download() {
 	header( 'Pragma: no-cache' );
 	header( 'Expires: 0' );
 	
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile -- readfile() is appropriate for streaming file download
 	readfile( $filepath );
 	exit;
 }
