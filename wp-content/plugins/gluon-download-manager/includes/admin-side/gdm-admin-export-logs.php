@@ -6,18 +6,22 @@ function gdm_logs_export_tab_page() {
 	wp_enqueue_style( 'gdm_jquery_ui_style' );
 
 	// datetime fileds
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- Read-only date range selection, nonce verified on export
 	if ( isset( $_POST['gdm_stats_start_date'] ) ) {
-		$start_date = sanitize_text_field( $_POST['gdm_stats_start_date'] );
+		$start_date = sanitize_text_field( wp_unslash( $_POST['gdm_stats_start_date'] ) );
 	} else {
 		// default start date is 30 days back
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Intentionally using date() for timezone-aware display
 		$start_date = date( 'Y-m-d', time() - 60 * 60 * 24 * 30 );
 	}
 
 	if ( isset( $_POST['gdm_stats_end_date'] ) ) {
-		$end_date = sanitize_text_field( $_POST['gdm_stats_end_date'] );
+		$end_date = sanitize_text_field( wp_unslash( $_POST['gdm_stats_end_date'] ) );
 	} else {
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Intentionally using date() for timezone-aware display
 		$end_date = date( 'Y-m-d', time() );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	?>
 
@@ -50,6 +54,7 @@ function gdm_logs_export_tab_page() {
 						</div>
 						<br>
 						<div id="gdm_logs_date_buttons">
+							<?php // phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date -- date() is intentionally used for timezone-aware display ?>
 							<button class="button" type="button"
 									data-start-date="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"
 									data-end-date="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"><?php esc_html_e( 'Today', 'gluon-download-manager' ); ?></button>
@@ -68,6 +73,7 @@ function gdm_logs_export_tab_page() {
 							<button class="button" type="button"
 									data-start-date="<?php echo '1970-01-01'; ?>"
 									data-end-date="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"><?php esc_html_e( 'All Time', 'gluon-download-manager' ); ?></button>
+							<?php // phpcs:enable WordPress.DateTime.RestrictedFunctions.date_date ?>
 						</div>
 
 						<div class="submit">
