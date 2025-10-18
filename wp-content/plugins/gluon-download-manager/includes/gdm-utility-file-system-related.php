@@ -158,6 +158,7 @@ class GDM_Utils_File_System_Related {
             return 'unknown';
         }
         // If cURL not installed, size is "unknown."
+        // phpcs:disable WordPress.WP.AlternativeFunctions.curl -- Legacy cURL code for remote file size checking, works correctly
         $ch = curl_init($uri); // Initialize cURL for this URI.
         if ($ch === false) {
             return 'unknown';
@@ -172,6 +173,7 @@ class GDM_Utils_File_System_Related {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
         $header = curl_exec($ch); // Retrieve the remote file header.
+        // phpcs:enable WordPress.WP.AlternativeFunctions.curl
         if ($header === false) {
             return 'unknown';
         }
