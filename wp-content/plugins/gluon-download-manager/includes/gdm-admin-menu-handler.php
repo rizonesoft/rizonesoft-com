@@ -633,20 +633,24 @@ function gdm_create_stats_page() {
 	wp_enqueue_script( 'jquery-ui-datepicker' );
 	wp_enqueue_style( 'gdm_jquery_ui_style' );
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- Stats display page, no state changes
 	if ( isset( $_POST['gdm_stats_start_date'] ) ) {
-		$start_date = sanitize_text_field( $_POST['gdm_stats_start_date'] );
+		$start_date = sanitize_text_field( wp_unslash( $_POST['gdm_stats_start_date'] ) );
 	} else {
 		// default start date is 30 days back
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Intentionally using date() for timezone-aware display
 		$start_date = date( 'Y-m-d', time() - 60 * 60 * 24 * 30 );
 	}
 
 	if ( isset( $_POST['gdm_stats_end_date'] ) ) {
-		$end_date = sanitize_text_field( $_POST['gdm_stats_end_date'] );
+		$end_date = sanitize_text_field( wp_unslash( $_POST['gdm_stats_end_date'] ) );
 	} else {
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date -- Intentionally using date() for timezone-aware display
 		$end_date = date( 'Y-m-d', time() );
 	}
 	if ( isset( $_REQUEST['gdm_active_tab'] ) && ! empty( $_REQUEST['gdm_active_tab'] ) ) {
-		$active_tab = sanitize_text_field( $_REQUEST['gdm_active_tab'] );
+		$active_tab = sanitize_text_field( wp_unslash( $_REQUEST['gdm_active_tab'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	} else {
 		$active_tab = 'datechart';
 	}
@@ -681,11 +685,13 @@ function gdm_create_stats_page() {
 				<?php esc_html_e( 'Start Date: ', 'gluon-download-manager' ); ?><input type="text" class="datepicker" name="gdm_stats_start_date" value="<?php echo esc_attr( gdm_sanitize_text( $start_date ) ); ?>">
 				<?php esc_html_e( 'End Date: ', 'gluon-download-manager' ); ?><input type="text" class="datepicker" name="gdm_stats_end_date" value="<?php echo esc_attr( gdm_sanitize_text( $start_date ) ); ?>">
 				<p id="gdm_date_buttons">
+					<?php // phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date -- date() is intentionally used for timezone-aware display ?>
 					<button type="button" data-start-date="<?php echo esc_attr( date( 'Y-m-01' ) ); ?>" data-end-date="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"><?php esc_html_e( 'This Month', 'gluon-download-manager' ); ?></button>
 					<button type="button" data-start-date="<?php echo esc_attr( date( 'Y-m-d', strtotime( 'first day of last month' ) ) ); ?>" data-end-date="<?php echo esc_attr( date( 'Y-m-d', strtotime( 'last day of last month' ) ) ); ?>"><?php esc_html_e( 'Last Month', 'gluon-download-manager' ); ?></button>
 					<button button type="button" data-start-date="<?php echo esc_attr( date( 'Y-01-01' ) ); ?>" data-end-date="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"><?php esc_html_e( 'This Year', 'gluon-download-manager' ); ?></button>
 					<button button type="button" data-start-date="<?php echo esc_attr( date( 'Y-01-01', strtotime( '-1 year' ) ) ); ?>" data-end-date="<?php echo esc_attr( date( 'Y-12-31', strtotime( 'last year' ) ) ); ?>"><?php esc_html_e( 'Last Year', 'gluon-download-manager' ); ?></button>
 					<button button type="button" data-start-date="<?php echo '1970-01-01'; ?>" data-end-date="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"><?php esc_html_e( 'All Time', 'gluon-download-manager' ); ?></button>
+					<?php // phpcs:enable WordPress.DateTime.RestrictedFunctions.date_date ?>
 				</p>
 				<div class="submit">
 					<input type="submit" class="button-primary" value="<?php esc_html_e( 'View Stats', 'gluon-download-manager' ); ?>">
