@@ -207,7 +207,7 @@ class gdm_Admin_Tools_Page {
 
 				var data = {
 					action: 'gdm_migrate_from_sdm',
-					nonce: '<?php echo wp_create_nonce( 'gdm_migrate_from_sdm' ); ?>',
+					nonce: '<?php echo esc_attr( wp_create_nonce( 'gdm_migrate_from_sdm' ) ); ?>',
 					migrate_logs: $('#gdm_migrate_logs').is(':checked') ? 1 : 0,
 					migrate_settings: $('#gdm_migrate_settings').is(':checked') ? 1 : 0,
 					migrate_taxonomies: $('#gdm_migrate_taxonomies').is(':checked') ? 1 : 0,
@@ -298,7 +298,7 @@ class gdm_Admin_Tools_Page {
 
 				var data = {
 					action: 'gdm_backup_data',
-					nonce: '<?php echo wp_create_nonce( 'gdm_backup_data' ); ?>',
+					nonce: '<?php echo esc_attr( wp_create_nonce( 'gdm_backup_data' ) ); ?>',
 					backup_logs: $('#gdm_backup_logs').is(':checked') ? 1 : 0,
 					backup_settings: $('#gdm_backup_settings').is(':checked') ? 1 : 0,
 					backup_taxonomies: $('#gdm_backup_taxonomies').is(':checked') ? 1 : 0
@@ -389,7 +389,7 @@ class gdm_Admin_Tools_Page {
 				}
 
 				formData.append('action', 'gdm_restore_data');
-				formData.append('nonce', '<?php echo wp_create_nonce( 'gdm_restore_data' ); ?>');
+				formData.append('nonce', '<?php echo esc_attr( wp_create_nonce( 'gdm_restore_data' ) ); ?>');
 				formData.append('gdm_backup_file', file);
 				formData.append('skip_existing', $('#gdm_restore_skip_existing').is(':checked') ? 1 : 0);
 
