@@ -476,7 +476,7 @@ function gdm_redirect_to_url( $url, $delay = '0', $exit = '1' ) {
 	$url = apply_filters( 'gdm_before_redirect_to_url', $url );
 	if ( empty( $url ) ) {
 		echo '<strong>';
-		_e( 'Error! The URL value is empty. Please specify a correct URL value to redirect to!', 'gluon-download-manager' );
+		esc_html_e( 'Error! The URL value is empty. Please specify a correct URL value to redirect to!', 'gluon-download-manager' );
 		echo '</strong>';
 		exit;
 	}
@@ -836,8 +836,8 @@ function gdm_dl_request_intermediate_page($content) {
 
         <?php // The following renders after captcha verification successful and download has started. ?>
         <div id="gdm_after_captcha_verification_content" class="hidden">
-            <p><?php _e('CAPTCHA verification successful. Once the download is complete, click the button below to return.', 'gluon-download-manager') ?></p>
-            <button id="gdm_intermediate_page_manual_redirection_btn" class="gdm_download white"><?php _e('Go Back', 'gluon-download-manager') ?></button>
+            <p><?php esc_html_e('CAPTCHA verification successful. Once the download is complete, click the button below to return.', 'gluon-download-manager') ?></p>
+            <button id="gdm_intermediate_page_manual_redirection_btn" class="gdm_download white"><?php esc_html_e('Go Back', 'gluon-download-manager') ?></button>
         </div>
 
 		<input type="hidden" id="gdm_redirect_form_intermediate_page_url" value="<?php echo esc_url_raw($redirect_url) ?>">
