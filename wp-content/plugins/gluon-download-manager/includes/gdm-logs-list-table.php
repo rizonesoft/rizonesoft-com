@@ -118,32 +118,32 @@ class gdm_List_Table extends WP_List_Table {
 			$action = 'bulk-' . $this->_args['plural'];
 
 			if ( ! wp_verify_nonce( $nonce, $action ) ) {
-				wp_die( __( 'Nope! Security check failed!', 'gluon-download-manager' ) );
+				wp_die( esc_html__( 'Nope! Security check failed!', 'gluon-download-manager' ) );
 			}
 
 			if ( ! isset( $_POST['download'] ) || $_POST['download'] == null ) {
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'No entries were selected.', 'gluon-download-manager' ) . '</strong></p><p><em>' . __( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'No entries were selected.', 'gluon-download-manager' ) . '</strong></p><p><em>' . esc_html__( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
 				return;
 			}
 
 			foreach ( $_POST['download'] as $item ) {
 				$row_id = sanitize_text_field( $item );
 				if ( ! is_numeric( $row_id ) ) {
-					wp_die( __( 'Error! The row id value of a log entry must be numeric.', 'gluon-download-manager' ) );
+					wp_die( esc_html__( 'Error! The row id value of a log entry must be numeric.', 'gluon-download-manager' ) );
 				}
 
 				$row_id = intval( $row_id );
 				if ( ! is_numeric( $row_id ) ) {
-					wp_die( __( 'Error! The row id value of a log entry must be numeric.', 'gluon-download-manager' ) );
+					wp_die( esc_html__( 'Error! The row id value of a log entry must be numeric.', 'gluon-download-manager' ) );
 				}
 
 				global $wpdb;
 				$del_row = $wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'gdm_downloads WHERE id = %d', $row_id ));
 			}
 			if ( $del_row ) {
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'Entries Deleted!', 'gluon-download-manager' ) . '</strong></p><p><em>' . __( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'Entries Deleted!', 'gluon-download-manager' ) . '</strong></p><p><em>' . esc_html__( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
 			} else {
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'Error', 'gluon-download-manager' ) . '</strong></p><p><em>' . __( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'Error', 'gluon-download-manager' ) . '</strong></p><p><em>' . esc_html__( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
 			}
 		}
 
@@ -154,22 +154,22 @@ class gdm_List_Table extends WP_List_Table {
             $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( stripslashes ( $_GET['_wpnonce'] ) ) : '';
 			$action = 'gdm_delete_log_entry';
 			if ( ! wp_verify_nonce( $nonce, $action ) ) {
-				wp_die( __( 'Nope! Security check failed!', 'gluon-download-manager' ) );
+				wp_die( esc_html__( 'Nope! Security check failed!', 'gluon-download-manager' ) );
 			}
 
 			//Grab the row id
 			$row_id = isset( $_GET['row_id'] ) ? sanitize_text_field( stripslashes ( $_GET['row_id'] ) ) : '';
 			$row_id = intval( $row_id );	
 			if ( ! is_numeric( $row_id ) ) {
-				wp_die( __( 'Error! The row id value of a log entry must be numeric.', 'gluon-download-manager' ) );
+				wp_die( esc_html__( 'Error! The row id value of a log entry must be numeric.', 'gluon-download-manager' ) );
 			}
 
 			global $wpdb;
 			$del_row = $wpdb->query( $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'gdm_downloads WHERE id = %d', $row_id) );
 			if ( $del_row ) {
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'Entry Deleted!', 'gluon-download-manager' ) . '</strong></p><p><em>' . __( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'Entry Deleted!', 'gluon-download-manager' ) . '</strong></p><p><em>' . esc_html__( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
 			} else {
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'Error', 'gluon-download-manager' ) . '</strong></p><p><em>' . __( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'Error', 'gluon-download-manager' ) . '</strong></p><p><em>' . esc_html__( 'Click to Dismiss', 'gluon-download-manager' ) . '</em></p></div>';
 			}
 		}
 	}
@@ -223,7 +223,7 @@ class gdm_List_Table extends WP_List_Table {
 			$dl_id = intval( $dl_id );
 
 			if ( ! is_numeric( $dl_id ) ) {
-				wp_die( __( 'Error! The download id value of a log entry must be numeric.', 'gluon-download-manager' ) );
+				wp_die( esc_html__( 'Error! The download id value of a log entry must be numeric.', 'gluon-download-manager' ) );
 			}
 
 			$query       = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE post_id = %d", $dl_id);
@@ -300,12 +300,12 @@ class gdm_List_Table extends WP_List_Table {
 				echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
 			}
 
-			$search_btn_text = __('Search', 'gluon-download-manager');
+			$search_btn_text = esc_html__( 'Search', 'gluon-download-manager' );
 			?>
 
 			<!-- Search logs -->
 			<div class="alignleft actions searchactions" style="margin-right: 8px;">
-				<label class="screen-reader-text" for="gdm-search-input"><?php echo $search_btn_text; ?>:</label>
+				<label class="screen-reader-text" for="gdm-search-input"><?php echo esc_html( $search_btn_text ); ?>:</label>
 				<input type="search" id="gdm-search-input" name="s" value="<?php _admin_search_query(); ?>"/>
 				<?php submit_button( $search_btn_text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
 			</div>
@@ -314,12 +314,12 @@ class gdm_List_Table extends WP_List_Table {
 			<div class="alignleft actions exportactions">
 				<fieldset id="gdm-export-logs-fieldset">
 					<button type="button" id="gdm-export-logs-submit" class="button">
-						<?php _e('Export Logs', 'gluon-download-manager') ?>
+						<?php esc_html_e('Export Logs', 'gluon-download-manager') ?>
 					</button>
 					<input type="hidden" id="gdm-export-logs-search" value="<?php _admin_search_query(); ?>"/>
 					<input type="hidden" id="gdm-export-logs-order" value="<?php echo isset($_REQUEST['order']) ? esc_attr( $_REQUEST['order'] ) : ''; ?>" />
 					<input type="hidden" id="gdm-export-logs-orderby" value="<?php echo isset($_REQUEST['orderby']) ? esc_attr( $_REQUEST['orderby'] ) : ''; ?>" />
-					<input type="hidden" id="gdm-export-logs-nonce" value="<?php echo wp_create_nonce( 'gdm-export-logs-nonce-action' ) ?>" />
+					<input type="hidden" id="gdm-export-logs-nonce" value="<?php echo esc_attr( wp_create_nonce( 'gdm-export-logs-nonce-action' ) ) ?>" />
 				</fieldset>
 			</div>
 			<?php
