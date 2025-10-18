@@ -133,6 +133,7 @@ class gdm_File_Protection_Handler {
 		if ( !is_dir($uploads_dir) ) {
 			// Try to create the directory with correct permissions (0755)
 			try{
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir -- mkdir() is appropriate for one-time directory creation
 				mkdir($uploads_dir, 0755, true);
 				gdm_Debug::log("The directory '".self::get_protected_dir_name() . "' was successfully created.", true);
 			}catch(\Exception $e){
@@ -233,6 +234,7 @@ class gdm_File_Protection_Handler {
 
 	public function override_wp_media_upload_directory_path($upload) {
 		// Check if the custom sdm directory is set in the request
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification handled by WordPress media upload system
 		if ( isset($_POST['gdm_upload_to_protected_dir']) && !empty($_POST['gdm_upload_to_protected_dir']) ) {
 			// Use the custom sdm directory provided in the POST request
 			$dir = self::get_protected_dir_name();
