@@ -52,12 +52,12 @@ class gdm_SWPM_Integration {
 		$output .= '<p class="description">' . __( 'Check this box to enable the access control feature of the Simple Membership plugin.', 'gluon-download-manager' ) . '</p>';
 		$output .= '</td>';
 		$output .= '</tr>';
-		echo $output;
+		echo wp_kses_post( $output );
 	}
 
 	public function check_gdm_download_process( $dl_id, $dl_link ) {
 		if ( ! $this->is_download_permitted( $dl_id ) ) {
-			wp_die( $this->error_msg );
+			wp_die( esc_html( $this->error_msg ) );
 		}
 	}
 
