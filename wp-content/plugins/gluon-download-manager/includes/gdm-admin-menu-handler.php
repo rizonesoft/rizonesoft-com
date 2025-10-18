@@ -570,17 +570,7 @@ function gdm_handle_logs_main_tab_page() {
 				</div>
 				<?php wp_nonce_field( null, 'gdm_delete_logs_nonce' ); ?>
 			</form>
-
-			<hr style="margin: 20px 0;" />
-
-			<form method="post" action="">
-				<div class="submit">
-				<input type="submit" class="button button-primary" name="gdm_initialize_cached_counts" value="<?php esc_html_e( 'Initialize Cached Download Counts', 'gluon-download-manager' ); ?>" />
-						<p class="description"><?php esc_html_e( 'Click this button to cache download counts in post meta. This improves performance and preserves counts when logs are deleted. Run this once after updating the plugin.', 'gluon-download-manager' ); ?></p>
-				</div>
-				<?php wp_nonce_field( null, 'gdm_init_counts_nonce' ); ?>
-			</form>
-			</div>
+		</div>
 		</div>
 
 		</div></div><!-- end of .poststuff and .post-body -->
