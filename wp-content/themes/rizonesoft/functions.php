@@ -104,61 +104,6 @@ function rizonesoft_set_autosave_interval($seconds) {
 add_filter('autosave_interval', 'rizonesoft_set_autosave_interval');
 
 /**
- * Fix BasePress color brightness function to handle invalid hex characters
- * Prevents PHP 8.x deprecation warnings from hexdec()
- */
-if (!function_exists('basepress_color_brightness')) {
-    function basepress_color_brightness($hex, $value) {
-        // Normalize into a six character long hex string
-        $hex = str_replace('#', '', $hex);
-        
-        // Validate hex string contains only valid hex characters
-        if (!ctype_xdigit($hex)) {
-            // Return original hex if invalid
-            return '#' . $hex;
-        }
-        
-        if (strlen($hex) == 3) {
-            $hex = str_repeat(substr($hex, 0, 1), 2) . str_repeat(substr($hex, 1, 1), 2) . str_repeat(substr($hex, 2, 1), 2);
-        }
-        
-        // Ensure we have exactly 6 characters
-        if (strlen($hex) != 6) {
-            return '#' . $hex;
-        }
-        
-        // Split into R, G, B and add the value to change the color by
-        $color_parts = str_split($hex, 2);
-        
-        // Validate each color part before hexdec
-        foreach ($color_parts as $part) {
-            if (!ctype_xdigit($part)) {
-                return '#' . $hex;
-            }
-        }
-        
-        $r = hexdec($color_parts[0]) + $value;
-        $g = hexdec($color_parts[1]) + $value;
-        $b = hexdec($color_parts[2]) + $value;
-        
-        // Make values within range 0-255
-        $r = max(min($r, 255), 0);
-        $g = max(min($g, 255), 0);
-        $b = max(min($b, 255), 0);
-        
-        // Convert RGB to HEX
-        $new_hex = sprintf(
-            "#%02x%02x%02x",
-            $r,
-            $g,
-            $b
-        );
-        
-        return $new_hex;
-    }
-}
-
-/**
  * Suppress ResizeObserver JavaScript errors in browser console
  * These are benign errors that don't affect functionality
  */

@@ -797,11 +797,31 @@ function basepress_get_footer($name) {
 function basepress_color_brightness(  $hex, $value  ) {
     // Normalize into a six character long hex string
     $hex = str_replace( '#', '', $hex );
+    
+    // Validate hex string contains only valid hex characters (PHP 8.x compatibility)
+    if ( ! ctype_xdigit( $hex ) ) {
+        return '#' . $hex; // Return original if invalid
+    }
+    
     if ( strlen( $hex ) == 3 ) {
         $hex = str_repeat( substr( $hex, 0, 1 ), 2 ) . str_repeat( substr( $hex, 1, 1 ), 2 ) . str_repeat( substr( $hex, 2, 1 ), 2 );
     }
+    
+    // Ensure we have exactly 6 characters
+    if ( strlen( $hex ) != 6 ) {
+        return '#' . $hex;
+    }
+    
     //Split into R, G, B and add the value to change the color by
     $color_parts = str_split( $hex, 2 );
+    
+    // Validate each color part before hexdec (prevents PHP 8.x deprecation warnings)
+    foreach ( $color_parts as $part ) {
+        if ( ! ctype_xdigit( $part ) ) {
+            return '#' . $hex;
+        }
+    }
+    
     $r = hexdec( $color_parts[0] ) + $value;
     $g = hexdec( $color_parts[1] ) + $value;
     $b = hexdec( $color_parts[2] ) + $value;
