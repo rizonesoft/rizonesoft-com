@@ -1,0 +1,33 @@
+/* 
+ * Custom styles for BasePress knowledge base
+ * This file addresses custom styling for the BasePress plugin
+ */
+
+/* Ensure typography inheritance */
+.bpress-wrap * {
+    font-family: inherit;
+}
+
+/* Fix for list items */
+.bpress-wrap ul.bpress-items {
+    display: block;
+    column-count: 1;
+    margin-bottom: 1.5em;
+}
+
+/* Spacing between article lists and "View all" links */
+.bpress-article-list {
+    margin-bottom: 15px;
+}
+
+/* Add more space below the search bar */
+.bpress-search-form {
+    margin-bottom: 30px;
+}
+
+/* Increase spacing between Knowledge Base title and breadcrumbs */
+.bpress-heading {
+    margin-bottom: 1.5em;
+}
+
+/* Additional BasePress customizations can be added here */ 

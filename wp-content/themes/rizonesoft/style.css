@@ -1,0 +1,301 @@
+/**
+Theme Name: Rizonesoft
+Author: Rizonepress
+Author URI: https://rizonepress.com
+Description: Presenting the official child theme for Rizonetech.com, crafted by Rizonepress. Built upon the fast, lightweight (<50KB frontend footprint), and highly customizable Astra theme framework, this child theme inherits exceptional speed and a strong SEO foundation with integrated Schema.org code. Specifically tailored for Rizonetech.com, it provides a beautiful and functional platform optimized for showcasing Rizonesoft\'s technology, software, and services. Benefit from Astra\'s responsiveness, extensive sidebar/widget options, and seamless compatibility with major page builders and plugins like WooCommerce. Designed, developed, and maintained by Rizonepress, this theme delivers a customized, high-performance experience for Rizonetech.com.
+Version: 1.0.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: rizonesoft
+Template: astra
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap');
+
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6 {
+    margin-top: 3%;
+}
+
+/* Style the container for WP code blocks */
+.wp-block-code pre,
+pre {
+    background-color: #f5f5f5;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    padding: 1em;
+    margin-bottom: 1.5em;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Reset styles on the code tag inside pre, inheriting font */
+.wp-block-code pre code,
+pre code {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.9em !important;
+    line-height: inherit !important;
+    font-family: 'Source Code Pro', 'Courier New', Consolas, Monaco, Courier, monospace !important; /* Keep font family */
+    color: #222 !important;
+    display: block;
+}
+
+p > code, li > code,
+code:not(pre *) {
+    background-color: #f5f5f5;
+    padding: 0.2em 0.4em;
+    margin: 0 0.3em;
+    font-size: 0.9em;
+    line-height: 1;
+    letter-spacing: normal;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    font-family: 'Source Code Pro', 'Courier New', Consolas, Monaco, Courier, monospace !important;
+    color: #222;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+/* Add margin to UAGB FAQ blocks */
+.wp-block-uagb-faq.uagb-faq__outer-wrap {
+    margin: 30px 0; /* Adjust values as needed - currently 30px top/bottom, 0 left/right */
+}
+
+/* Simple Download Monitor (SDM) button styling */
+/* General styling for all download buttons */
+.sdm_download {
+    position: relative;
+    display: inline-block !important;
+    padding: 12px 20px !important;
+    margin: 8px 0 !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    min-width: 160px !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+/* Blue button styling - lighter normal state */
+.sdm_download.blue,
+a.sdm_download.blue {
+    background: #2B8AE2 !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+    border-color: rgba(0,0,0,0.15) !important;
+}
+
+/* Blue button hover state - sunken effect */
+html body .sdm_download.blue:hover,
+html body a.sdm_download.blue:hover {
+    background: #2473BF !important;
+    color: #ffffff !important;
+    border-color: rgba(0,0,0,0.3) !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* Orange button styling - lighter normal state */
+.sdm_download.orange,
+a.sdm_download.orange {
+    background: #FFA726 !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+    border-color: rgba(0,0,0,0.15) !important;
+}
+
+/* Orange button hover state - sunken effect */
+html body .sdm_download.orange:hover,
+html body a.sdm_download.orange:hover {
+    background: #F57C00 !important;
+    color: #ffffff !important;
+    border-color: rgba(0,0,0,0.3) !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* Ensure text is white everywhere in buttons */
+.sdm_download *,
+.sdm_download.blue *,
+.sdm_download.orange * {
+    color: #ffffff !important;
+}
+
+/* Add a subtle download icon */
+.sdm_download:before {
+    content: "";
+    display: inline-block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'%3E%3C/path%3E%3Cpolyline points='7 10 12 15 17 10'%3E%3C/polyline%3E%3Cline x1='12' y1='15' x2='12' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+}
+
+/* Active/click state - deeper sunken effect */
+.sdm_download:active {
+    box-shadow: inset 0 3px 7px rgba(0,0,0,0.3) !important;
+    border-color: rgba(0,0,0,0.4) !important;
+}
+
+/* Add bottom spacing for Google software ad container */
+.google-software-ad-container {
+    margin-bottom: 1em;
+}
+
+/* Add robot icon to specific AI button in header */
+.ast-header-button-2 .ast-custom-button:before {
+    content: "";
+    display: inline-block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 100 100'%3E%3Cpath fill='white' d='M86.8,35.6l-5.2-1.7c-.7-2.5-1.4-4.9-2.4-7.2-1.9-.9-3.9-1.7-5.8-2.4v-14.2h-6.7l-2.6,11.5c-9.2-2-18.7-2.1-28.2,0l-2.6-11.5h-6.7v14.2c-2,.7-3.9,1.5-5.8,2.4-1,2.3-1.8,4.7-2.4,7.2l-5.2,1.7c-1.7.6-3.2,2.6-3.2,4.4v13.3c0,1.8,1.4,3.8,3.2,4.4l5.2,1.7c.6,2.4,1.4,4.8,2.4,7.2,19.5,9.2,40.3,8.6,58.3,0,1-2.4,1.8-4.8,2.4-7.2l5.2-1.7c1.7-.6,3.2-2.6,3.2-4.4v-13.3c0-1.8-1.4-3.8-3.2-4.4ZM74,61.7c-7.7,3.3-15.8,5-24,5s-16.2-1.7-24-5c-3.6-9.8-3.6-20.3,0-30,7.7-3.3,15.8-5,24-5s16.3,1.7,24,5c3.6,9.8,3.6,20.3,0,30.1Z'/%3E%3Cpath fill='white' d='M33.3,39.2v8.3c0,1.8,1.5,3.3,3.3,3.3s3.3-1.5,3.3-3.3v-8.3c0-1.8-1.5-3.3-3.3-3.3s-3.3,1.5-3.3,3.3Z'/%3E%3Cpath fill='white' d='M60,39.2v8.3c0,1.8,1.5,3.3,3.3,3.3s3.3-1.5,3.3-3.3v-8.3c0-1.8-1.5-3.3-3.3-3.3s-3.3,1.5-3.3,3.3Z'/%3E%3Cpath fill='white' d='M43.3,55h13.3v5h-13.3v-5Z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 32px;
+    height: 32px;
+    position: relative;
+    margin-right: 0;
+}
+
+/* Hide the text in the AI button, show only the icon */
+.ast-header-button-2 .ast-custom-button {
+    font-size: 0;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+}
+
+/* Also hide the menu-link text that duplicates the button */
+.ast-header-button-2 .menu-link {
+    font-size: 0;
+    color: transparent;
+}
+
+/* Jetpack AI Search Styling */
+/* Fix height difference between search input and button */
+.jetpack-ai-chat-question-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.jetpack-ai-chat-question-input {
+    flex-grow: 1;
+}
+
+.components-text-control__input.is-next-40px-default-size {
+    height: 46px !important;
+    border-radius: 4px;
+    padding: 0 12px !important;
+    border-color: #ddd;
+}
+
+.jetpack-ai-chat-question-button {
+    height: 46px !important;
+    padding: 0 18px !important;
+    border-radius: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    transition: all 0.2s ease-in-out !important;
+    background-color: #2B8AE2 !important;
+    color: #fff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+
+.jetpack-ai-chat-question-button:hover {
+    background-color: #2473BF !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2) !important;
+    border-color: rgba(0,0,0,0.3) !important;
+}
+
+/* Style the chat response area */
+.jetpack-ai-chat-answer-container {
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #eee;
+}
+
+/* Style headings in the chat */
+.jetpack-ai-chat-answer-container h2 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Style the copy button */
+.jetpack-ai-chat-copy-button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    background-color: #f0f0f0 !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.jetpack-ai-chat-copy-button:hover {
+    background-color: #e5e5e5 !important;
+}
+
+/* Style additional resources section */
+.jetpack-ai-chat-answer-references {
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.jetpack-ai-chat-answer-references h3 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.jetpack-ai-chat-answer-references ul {
+    margin-left: 20px;
+}
+
+.jetpack-ai-chat-answer-references li {
+    margin-bottom: 6px;
+}
+
+/* Style feedback buttons */
+.jetpack-ai-chat-answer-feedback-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    color: #666;
+}
+
+.jetpack-ai-chat-answer-feedback-buttons a {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.jetpack-ai-chat-answer-feedback-buttons a:hover {
+    opacity: 1;
+}
