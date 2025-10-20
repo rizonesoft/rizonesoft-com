@@ -413,38 +413,38 @@ function gdm_handle_category_shortcode( $args ) {
 	}  // End else iterate cpt's
 }
 
+// Helper function for category tree walker
+function gdm_custom_taxonomy_walker( $taxonomy, $parent = 0 ) {
+
+	// Get terms (check if has parent)
+	$terms = get_terms(
+		array(
+			'taxonomy'   => $taxonomy,
+			'parent'     => $parent,
+			'hide_empty' => false,
+		)
+	);
+
+	// If there are terms, start displaying
+	if ( count( $terms ) > 0 ) {
+		// Displaying as a list
+		$out = '<ul>';
+		// Cycle though the terms
+		foreach ( $terms as $term ) {
+			// Secret sauce. Function calls itself to display child elements, if any
+			$out .= '<li class="gdm_cat" id="' . $term->slug . '"><span id="' . $term->term_id . '" class="gdm_cat_title" style="cursor:pointer;">' . $term->name . '</span>';
+			$out .= '<p class="gdm_placeholder" style="margin-bottom:0;"></p>' . gdm_custom_taxonomy_walker( $taxonomy, $term->term_id );
+			$out .= '</li>';
+		}
+		$out .= '</ul>';
+		return $out;
+	}
+	return;
+}
+
 // Create category tree shortcode
 function gdm_download_categories_shortcode() {
-
-	function custom_taxonomy_walker( $taxonomy, $parent = 0 ) {
-
-		// Get terms (check if has parent)
-		$terms = get_terms(
-			array(
-				'taxonomy'   => $taxonomy,
-				'parent'     => $parent,
-				'hide_empty' => false,
-			)
-		);
-
-		// If there are terms, start displaying
-		if ( count( $terms ) > 0 ) {
-			// Displaying as a list
-			$out = '<ul>';
-			// Cycle though the terms
-			foreach ( $terms as $term ) {
-				// Secret sauce. Function calls itself to display child elements, if any
-				$out .= '<li class="gdm_cat" id="' . $term->slug . '"><span id="' . $term->term_id . '" class="gdm_cat_title" style="cursor:pointer;">' . $term->name . '</span>';
-				$out .= '<p class="gdm_placeholder" style="margin-bottom:0;"></p>' . custom_taxonomy_walker( $taxonomy, $term->term_id );
-				$out .= '</li>';
-			}
-			$out .= '</ul>';
-			return $out;
-		}
-		return;
-	}
-
-	return '<div class="gdm_object_tree">' . custom_taxonomy_walker( 'gdm_categories' ) . '</div>';
+	return '<div class="gdm_object_tree">' . gdm_custom_taxonomy_walker( 'gdm_categories' ) . '</div>';
 }
 
 /**
